@@ -1,0 +1,33 @@
+.lift {
+    transition: transform 2s ease, left 0.5s ease;
+}
+
+
+.lift::before {
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    content: "";
+    background-color: #35353594;
+    z-index: 1;
+    left: 0;
+    transition: width 2.5s;
+}
+.lift.door-open::before {
+    width: 0;
+}
+
+
+.lift::after {
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    content: "";
+    background-color: #353535a1;
+    z-index: 1;
+    right: 0;
+    transition: width 2.5s;
+}
+.lift.door-open::after {
+    width: 0;
+}
