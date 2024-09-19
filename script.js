@@ -26,8 +26,6 @@ function startTheGame() {
 
     if (totalFloors < 2 ||
         totalLifts < 1 ||
-        totalFloors > 9999 ||
-        totalLifts > 9999 ||
         isNaN(totalLifts) ||
         isNaN(totalFloors)) {
         errorToast('Please enter keep Lift count > 0 & Floor count > 1');
