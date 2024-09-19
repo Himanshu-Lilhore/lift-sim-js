@@ -24,13 +24,13 @@ function startTheGame() {
     const totalFloors = parseInt(document.getElementById('floors').value);
     const totalLifts = parseInt(document.getElementById('lifts').value);
 
-    if (totalFloors < 2 ||
+    if (totalFloors < 1 ||
         totalLifts < 1 ||
         isNaN(totalLifts) ||
         isNaN(totalFloors)) {
         errorToast(`Required : 
             Lift count > 0
-            Floor count > 1`);
+            Floor count > 0`);
         return;
     }
 
@@ -46,13 +46,13 @@ function startTheGame() {
         const floor = document.createElement('div');
         floor.classList.add('floor', 'p-4', 'gap-1', 'h-40', 'flex', 'flex-col', 'w-full', 'justify-center', 'items-start', 'relative', 'border-t-2', 'border-black');
         floor.dataset.floor = i;
-        
+
         const floorButtons = document.createElement('div');
         floorButtons.classList.add('flex', 'flex-col', 'relative');
-        
+
         const floorNum = document.createElement('div');
         floorNum.classList.add('text-6xl', 'opacity-15', 'absolute', 'top-10', 'left-[40rem]', 'font-bold');
-        floorNum.innerText = `${ i === 1 ? 'Ground' : `Level-${i-1}`}`
+        floorNum.innerText = `${i === 1 ? 'Ground' : `Level-${i - 1}`}`
 
 
         const upButton = document.createElement('button');
@@ -61,8 +61,20 @@ function startTheGame() {
         downButton.innerHTML = "<img src='./up-button.png' class='h-14 w-14 p-1 rounded-full rotate-180 hover:bg-sky-600/70'>";
         upButton.classList.add('up', `${i === totalFloors && 'opacity-10'}`);
         downButton.classList.add('down', `${i === 1 && 'opacity-10'}`);
-        if(i !== totalFloors) upButton.onclick = () => requestLift(i, 'up');
-        if(i !== 1) downButton.onclick = () => requestLift(i, 'down');
+        if (i !== totalFloors) {
+            upButton.onclick = () => {
+                requestLift(i, 'up');
+                upButton.disabled = true
+                setTimeout(() => upButton.disabled = false, 2*holdDoor+500)
+            }
+        }
+        if (i !== 1) {
+            downButton.onclick = () => {
+                requestLift(i, 'down');
+                downButton.disabled = true
+                setTimeout(() => downButton.disabled = false, 2*holdDoor+500)
+            }
+        }
         floorButtons.appendChild(upButton);
         floorButtons.appendChild(downButton);
 
