@@ -24,13 +24,13 @@ function startTheGame() {
     const totalFloors = parseInt(document.getElementById('floors').value);
     const totalLifts = parseInt(document.getElementById('lifts').value);
 
-    if (totalFloors < 1 ||
+    if (totalFloors < 2 ||
         totalLifts < 1 ||
-        totalFloors > 99 ||
-        totalLifts > 99 ||
+        totalFloors > 9999 ||
+        totalLifts > 9999 ||
         isNaN(totalLifts) ||
         isNaN(totalFloors)) {
-        errorToast('Please enter numbers in the range [2, 99]');
+        errorToast('Please enter keep Lift count > 0 & Floor count > 1');
         return;
     }
 
