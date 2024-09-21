@@ -65,8 +65,8 @@ function startTheGame() {
         const downButton = document.createElement('button');
         upButton.innerHTML = "<img src='./up-button.png' class='h-14 w-14 p-1 rounded-full hover:bg-sky-600/70'>";
         downButton.innerHTML = "<img src='./up-button.png' class='h-14 w-14 p-1 rounded-full rotate-180 hover:bg-sky-600/70'>";
-        upButton.classList.add('up', `${i === totalFloors ? 'opacity-10' : 'opacity-100'}`);
-        downButton.classList.add('down', `${i === 1 ? 'opacity-10' : 'opacity-100'}`);
+        upButton.classList.add('up', `${i === totalFloors ? 'opacity-0' : 'opacity-100'}`);
+        downButton.classList.add('down', `${i === 1 ? 'opacity-0' : 'opacity-100'}`);
         if (i !== totalFloors) {
             upButton.onclick = () => {
                 upButton.disabled = true
