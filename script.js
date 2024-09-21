@@ -34,6 +34,12 @@ function startTheGame() {
         return;
     }
 
+    if (totalFloors === 1 &&
+        totalLifts > 1) {
+        errorToast(`Can't have multiple lifts for just one floor`);
+        return;
+    }
+
     const game = document.getElementById('game');
     game.innerHTML = '';
 
@@ -59,20 +65,20 @@ function startTheGame() {
         const downButton = document.createElement('button');
         upButton.innerHTML = "<img src='./up-button.png' class='h-14 w-14 p-1 rounded-full hover:bg-sky-600/70'>";
         downButton.innerHTML = "<img src='./up-button.png' class='h-14 w-14 p-1 rounded-full rotate-180 hover:bg-sky-600/70'>";
-        upButton.classList.add('up', `${i === totalFloors && 'opacity-10'}`);
-        downButton.classList.add('down', `${i === 1 && 'opacity-10'}`);
+        upButton.classList.add('up', `${i === totalFloors ? 'opacity-10' : 'opacity-100'}`);
+        downButton.classList.add('down', `${i === 1 ? 'opacity-10' : 'opacity-100'}`);
         if (i !== totalFloors) {
             upButton.onclick = () => {
-                requestLift(i, 'up');
                 upButton.disabled = true
-                setTimeout(() => upButton.disabled = false, 2*holdDoor+500)
+                requestLift(i, 'up');
+                setTimeout(() => upButton.disabled = false, 2*holdDoor+1000)
             }
         }
         if (i !== 1) {
             downButton.onclick = () => {
-                requestLift(i, 'down');
                 downButton.disabled = true
-                setTimeout(() => downButton.disabled = false, 2*holdDoor+500)
+                requestLift(i, 'down');
+                setTimeout(() => downButton.disabled = false, 2*holdDoor+1000)
             }
         }
         floorButtons.appendChild(upButton);
