@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Lift-Simulation</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Lift Simulator</title>
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="favicon" href="">
 </head>
-
 <body>
+<div class="main">
     <div class="flex flex-col relative">
         <div class="flex flex-row items-center justify-around">
             <div class="text-9xl font-sans font-bold mx-5 whitespace-pre-line">Lift-Simulation</div>
@@ -31,10 +31,13 @@
             </div>
         </div>
 
-        <div class='flex flex-col-reverse items-center w-screen overflow-auto mt-4' id="game"></div>
+        <!-- <div class='add flex flex-col-reverse items-center w-screen overflow-auto mt-4' id="game"></div> -->
     </div>
+</div>
 
-    <script src="script.js"></script>
+<div class="add" id="game">
+
+</div>
+    <script src="./script.js"></script>
 </body>
-
 </html>
