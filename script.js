@@ -1,5 +1,6 @@
 let numOfFloors, numOfLifts, liftData = [], distanceArray = [], pendingLiftCalls = [], liftTimings = [], buttonTracker = [];
 const floorHeightValue = -160;
+let timers = {}, timerCount = 0;
 
 function displayError(msg) {
     const errorDiv = document.createElement('div');
@@ -12,6 +13,13 @@ function displayError(msg) {
 document.getElementById('create').addEventListener('click', initializeLifts);
 
 function initializeLifts() {
+    document.querySelector("#game").innerHTML = "";
+    for(let i=0; i<timerCount; i++) {
+        clearTimeout(timers[i]);
+    }
+    timers = {};
+    numOfFloors=0, numOfLifts=0, liftData = [], distanceArray = [], pendingLiftCalls = [], liftTimings = [], buttonTracker = [];
+
     const existingError = document.getElementById('err');
     if (existingError) {
         existingError.remove();
@@ -24,11 +32,6 @@ function initializeLifts() {
         displayError(`Required : 
             Lift count > 0
             Floor count > 0`);
-        return;
-    }
-
-    if (numOfFloors === 1 && numOfLifts > 1) {
-        displayError(`Can't have multiple lifts for just one floor`);
         return;
     }
 
@@ -66,7 +69,6 @@ function initializeLifts() {
         }
     }
 
-    document.querySelector("#game").innerHTML = "";
     setupSimulator();
 
     const mainButton = document.querySelector(".main");
@@ -169,8 +171,9 @@ function findNearestLift(liftArray, targetFloor) {
 
 function moveLiftToFloor(liftIndex, targetFloor, buttonClass, translateYValue) {
     const selectedLift = document.querySelector(`.lift-${liftIndex}`);
-    selectedLift.dataset.currentFloor = `${targetFloor}`;
-    const travelTime = 2 * (Math.abs(selectedLift.dataset.currentFloor - liftData[liftIndex].currentFloor));
+    const previousFloor = parseInt(liftData[liftIndex].currentFloor);
+    const travelTime = 2 * (Math.abs(targetFloor - previousFloor));
+    selectedLift.dataset.currentFloor = `${targetFloor}`; 
     selectedLift.style.transitionDuration = `${travelTime}s`;
     selectedLift.style.transform = `translateY(${translateYValue}px)`;
     liftData[liftIndex].currentFloor = selectedLift.dataset.currentFloor;
@@ -178,15 +181,16 @@ function moveLiftToFloor(liftIndex, targetFloor, buttonClass, translateYValue) {
     document.querySelector(`.${buttonClass}`).disabled = true;
     let totalWaitTime = (travelTime + 5) * 1000;
     liftData[liftIndex].time = totalWaitTime;
-    setTimeout(() => {
+
+    timers[timerCount++] = setTimeout(() => {
         const door = document.querySelector(`.liftDoor${liftIndex}`);
         door.style.width = "0%";
     }, travelTime * 1000);
-    setTimeout(() => {
+    timers[timerCount++] = setTimeout(() => {
         const door = document.querySelector(`.liftDoor${liftIndex}`);
         door.style.width = "100%";
     }, (travelTime + 2.5) * 1000);
-    setTimeout(() => {
+    timers[timerCount++] = setTimeout(() => {
         document.querySelector(`.${buttonClass}`).disabled = false;
         liftData[liftIndex].Status = true;
         if (pendingLiftCalls.length > 0) {
@@ -194,6 +198,7 @@ function moveLiftToFloor(liftIndex, targetFloor, buttonClass, translateYValue) {
         }
     }, totalWaitTime);
 }
+
 
 function handlePendingCalls(liftIndex) {
     const pendingRequest = pendingLiftCalls.shift();
